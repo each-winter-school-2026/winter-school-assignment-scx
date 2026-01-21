@@ -48,6 +48,9 @@ def select(moduleIdentifier,selectedSettings,moduleData):
             # Does not perform any real processing; for demonstration only.
             proteins = exampleModule(moduleIdentifier,selectedSettings,moduleData)
             return virtualSDSPage_2DGaussian(proteins)
+        case "molecular_weight_cutoff_2":
+            proteins = molecular_weight_cutoff_2(moduleIdentifier,selectedSettings,moduleData)
+            return virtualSDSPage_2DGaussian(proteins)
         case _: # Add new modules above 
             # Do not add modules below
             raise NotImplementedError(f"Module: {moduleIdentifier} is not implemented yet.")
@@ -133,6 +136,38 @@ def molecular_weight_cutoff(moduleIdentifier, selectedSettings,moduleData):
     else: 
         raise ValueError(f"Invalid option for Keep Below/Above Cutoff: {keep_option}")
     return Protein.getAllProteins()
+
+def molecular_weight_cutoff_2(moduleIdentifier, selectedSettings,moduleData):
+    """
+    Filter proteins by molecular weight, keeping those above or below a user-defined cutoff.
+
+    Settings (molecular_weight_cutoff.json):
+    - "Weight Cutoff (kDa)" (DecimalField): numeric threshold.
+    - "Keep Below/Above Cutoff" (ChoiceField): maps UI labels to "below" or "above" behavior.
+
+    :param moduleIdentifier: Identifier for the current module.
+    :param selectedSettings: Dict with cutoff value and whether to keep proteins above or below it.
+    :param moduleData: Module definitions supplying the mapping for the keep-above/below choice.
+    :return: Updated list of Protein objects after weight-based filtering.
+
+    """
+    weight_cutoff = extractSetting("Weight Cutoff (kDa)",moduleIdentifier,selectedSettings,moduleData)
+    # ChoiceField: resolve label to behavior string
+    keep_option = extractSetting("Keep Below/Above Cutoff",moduleIdentifier,selectedSettings,moduleData)
+    if keep_option == "above":
+        for protein in Protein.getAllProteins():
+            if protein.get_weight() < weight_cutoff:
+                protein.set_abundance(0.0)
+    elif keep_option == "below":
+        for protein in Protein.getAllProteins():
+            if protein.get_weight() > weight_cutoff:
+                protein.set_abundance(0.0)
+    else: 
+        raise ValueError(f"Invalid option for Keep Below/Above Cutoff: {keep_option}")
+    print(weight_cutoff, keep_option)
+    print(Protein.getAllProteins()[0].sequence)
+    return Protein.getAllProteins()
+
 
 
 def signal_peptide_removal(moduleIdentifier, selectedSettings,moduleData):

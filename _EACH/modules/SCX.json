@@ -7,36 +7,26 @@
 "settings": {
 
     
-    "Fraction Kept": {
-        "formtype": "MultipleChoiceField",
-        "options": {"OptionA 1": ["Internal_code_for_option_1"],
-                    "Option 2": ["Internal_code_for_option_2"],
-                    "Option 3": ["Internal_code_for_option_3"]
+    "SCX Column": {
+        "formtype": "ChoiceField",
+        "options": {"Bio WCX, NP, 3um": ["WCX"],
+                    "Bio SCX, NP, 3um": ["SCX"],
+                    "Bio MAb, NP, 3um": ["MAb"]
                     },
-        "default": ["Option 1","Option 2"]
+        "default": ["Bio WCX, NP, 3um"]
                 },
 
     
-    "Decimal field": {
-        "formtype": "DecimalField",
-        "default": 99.0,
-        "min": 0.0,
-        "max": 100.0,
-        "step": 0.1},
+    "Fraction": {
+        "formtype": "ChoiceField",
+        "options": {"Before RT/2": ["Internal_code_for_option_1"],
+                    "After RT/2": ["Internal_code_for_option_2"]
+                    },
+        "default": ["Before RT/2"]
+                }
 
 
-    "Boolean field": {
-        "formtype": "BooleanField",
-        "default": false
-            },
 
-            
-    "Character field": {
-        "formtype": "CharField",
-        "default": "Here the user can type anything they want",
-        "min_length": 5,  
-        "max_length": 100
-            }
 
 
 
