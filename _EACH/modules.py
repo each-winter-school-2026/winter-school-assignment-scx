@@ -41,6 +41,9 @@ def select(moduleIdentifier,selectedSettings,moduleData):
         case "unique_module_identifier":
             proteins = newModule(moduleIdentifier,selectedSettings,moduleData)
             return virtualSDSPage_2DGaussian(proteins)
+        case "SCX":
+            proteins = exampleModule(moduleIdentifier,selectedSettings,moduleData)
+            return virtualSDSPage_2DGaussian(proteins)
         case "example_module":
             # Does not perform any real processing; for demonstration only.
             proteins = exampleModule(moduleIdentifier,selectedSettings,moduleData)
